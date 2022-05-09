@@ -7,6 +7,7 @@ import com.ihelp.security.oauth2.CustomClaimConverter;
 import com.ihelp.security.oauth2.JwtGrantedAuthorityConverter;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -38,6 +39,8 @@ import tech.jhipster.config.JHipsterProperties;
 @Import(SecurityProblemSupport.class)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
+    private final OAuth2ResourceServerProperties oAuth2ResourceServerProperties;
+
     private final JHipsterProperties jHipsterProperties;
 
     private final CorsFilter corsFilter;
@@ -47,7 +50,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final SecurityProblemSupport problemSupport;
 
-    public SecurityConfiguration(CorsFilter corsFilter, JHipsterProperties jHipsterProperties, SecurityProblemSupport problemSupport) {
+    public SecurityConfiguration(OAuth2ResourceServerProperties oAuth2ResourceServerProperties, CorsFilter corsFilter, JHipsterProperties jHipsterProperties, SecurityProblemSupport problemSupport) {
+        this.oAuth2ResourceServerProperties = oAuth2ResourceServerProperties;
         this.corsFilter = corsFilter;
         this.problemSupport = problemSupport;
         this.jHipsterProperties = jHipsterProperties;
