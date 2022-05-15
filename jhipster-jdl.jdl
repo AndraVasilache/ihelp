@@ -1,0 +1,51 @@
+entity Post {
+	id Long
+	date LocalDate
+    content String
+    location String
+    verified Boolean
+    completed Boolean
+    tags Tag
+    types Type
+}
+
+entity Comment {
+	id Long
+	date LocalDate
+    content String
+}
+
+enum Tag {
+	Urgent ("Urgent"), 
+    Housing ("Housing"),
+    Food ("Food"),
+    Sanitary ("Sanitary"),
+    Transportation ("Transportation"),
+    Search ("Search"),
+    FirstAid ("First Aid"),
+    Info ("Info"),
+    Other ("Other"),
+    Important ("Important")
+}
+
+enum Type {
+	Request ("request"), 
+    Offer ("offer"),
+    Announcement ("announcement")
+}
+
+relationship ManyToOne {
+	Comment{post} to Post
+}
+
+relationship OneToOne {
+    Post{poster} to User
+    Comment{author} to User
+}
+
+// Set pagination
+paginate Comment with infinite-scroll
+paginate Post with pagination
+
+// Set service options to all except few
+service all with serviceImpl

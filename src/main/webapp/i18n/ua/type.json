@@ -1,0 +1,10 @@
+{
+  "ihelpApp": {
+    "Type": {
+      "null": "",
+      "Request": "request",
+      "Offer": "offer",
+      "Announcement": "announcement"
+    }
+  }
+}

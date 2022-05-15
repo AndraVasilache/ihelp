@@ -1,0 +1,31 @@
+{
+  "ihelpApp": {
+    "post": {
+      "home": {
+        "title": "Posts",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Creeare o nouă entitate Post",
+        "createOrEditLabel": "Creeare sau editare Post",
+        "notFound": "No Posts found"
+      },
+      "created": "A fost creată o nouă entitate Post cu identificatorul {{ param }}",
+      "updated": "Post cu identificatorul {{ param }} a fost actualizată",
+      "deleted": "Post cu identificatorul {{ param }} a fost ștearsă",
+      "delete": {
+        "question": "Sunteți sigur că doriți să ștergeți Post {{ id }}?"
+      },
+      "detail": {
+        "title": "Post"
+      },
+      "id": "Id",
+      "date": "Date",
+      "content": "Content",
+      "location": "Location",
+      "verified": "Verified",
+      "completed": "Completed",
+      "tags": "Tags",
+      "types": "Types",
+      "poster": "Poster"
+    }
+  }
+}

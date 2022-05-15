@@ -1,0 +1,31 @@
+{
+  "ihelpApp": {
+    "post": {
+      "home": {
+        "title": "Posts",
+        "refreshListLabel": "Refresh list",
+        "createLabel": "Створити новий Post",
+        "createOrEditLabel": "Створити чи редагувати Post",
+        "notFound": "No Posts found"
+      },
+      "created": "Новий Post створений з ідентифікатором {{ param }}",
+      "updated": "Post оновлений з ідентифікатором {{ param }}",
+      "deleted": "Post видалений з ідентифікатором {{ param }}",
+      "delete": {
+        "question": "Ви впевнені, що хочете видалити Post {{ id }}?"
+      },
+      "detail": {
+        "title": "Post"
+      },
+      "id": "Id",
+      "date": "Date",
+      "content": "Content",
+      "location": "Location",
+      "verified": "Verified",
+      "completed": "Completed",
+      "tags": "Tags",
+      "types": "Types",
+      "poster": "Poster"
+    }
+  }
+}

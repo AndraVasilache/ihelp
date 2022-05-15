@@ -1,0 +1,21 @@
+export enum Tag {
+  Urgent = 'Urgent',
+
+  Housing = 'Housing',
+
+  Food = 'Food',
+
+  Sanitary = 'Sanitary',
+
+  Transportation = 'Transportation',
+
+  Search = 'Search',
+
+  FirstAid = 'First Aid',
+
+  Info = 'Info',
+
+  Other = 'Other',
+
+  Important = 'Important',
+}
