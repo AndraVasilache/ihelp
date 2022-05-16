@@ -1,7 +1,7 @@
 export enum Type {
-  Request = 'request',
+  Request = 'Request',
 
-  Offer = 'offer',
+  Offer = 'Offer',
 
-  Announcement = 'announcement',
+  Announcement = 'Announcement',
 }
