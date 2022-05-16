@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import {Button, Card, CardBody, CardSubtitle, CardText, CardTitle, Table} from 'reactstrap';
+import {Button, Card, CardBody, CardFooter, CardSubtitle, CardText, CardTitle, Collapse, Table} from 'reactstrap';
 import { Translate, TextFormat, getSortState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -115,8 +115,8 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
                            </CardSubtitle>
                            <CardText>
                              {post.content}
-                             <p>verified: {post.verified ? 'true' : 'false'}</p>
-                             <p>completed: {post.completed ? 'true' : 'false'}</p>
+                             {/* <p>verified: {post.verified ? 'true' : 'false'}</p> */}
+                             {/* <p>completed: {post.completed ? 'true' : 'false'}</p> */}
                            </CardText>
                            <div className="btn-group flex-btn-group-container">
                              <Button tag={Link} to={`${match.url}/${post.id}`} color="info" size="sm" data-cy="entityDetailsButton">
@@ -151,33 +151,12 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
                              </Button>
                            </div>
                          </CardBody>
+
                        </Card>
                      </div>
                    </div>
                   ))}
                 </div>
-          // <div>
-          //   <Card
-          //   >
-          //     <CardBody>
-          //       <CardTitle tag="h5">
-          //         Card title
-          //       </CardTitle>
-          //       <CardSubtitle
-          //         className="mb-2 text-muted"
-          //         tag="h6"
-          //       >
-          //         Card subtitle
-          //       </CardSubtitle>
-          //       <CardText>
-          //         Some quick example text to build on the card title and make up the bulk of the cards content.
-          //       </CardText>
-          //       <Button>
-          //         Button
-          //       </Button>
-          //     </CardBody>
-          //   </Card>
-          // </div>
         ) : (
           !loading && (
             <div className="alert alert-warning">
