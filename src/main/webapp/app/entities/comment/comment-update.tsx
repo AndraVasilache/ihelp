@@ -93,7 +93,6 @@ export const CommentUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   validate={{ required: true }}
                 />
               ) : null}
-              <ValidatedField label={translate('ihelpApp.comment.date')} id="comment-date" name="date" data-cy="date" type="date" />
               <ValidatedField
                 label={translate('ihelpApp.comment.content')}
                 id="comment-content"

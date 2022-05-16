@@ -95,8 +95,11 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                   validate={{ required: true }}
                 />
               ) : null}
-              <ValidatedField label={translate('ihelpApp.post.date')} id="post-date" name="date" data-cy="date" type="date" />
-              <ValidatedField label={translate('ihelpApp.post.content')} id="post-content" name="content" data-cy="content" type="text" />
+              <ValidatedField label={translate('ihelpApp.post.content')}
+                              id="post-content"
+                              name="content"
+                              data-cy="content"
+                              type="text" />
               <ValidatedField
                 label={translate('ihelpApp.post.location')}
                 id="post-location"
@@ -139,7 +142,7 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 {users
                   ? users.map(otherEntity => (
                       <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
+                        {otherEntity.login}
                       </option>
                     ))
                   : null}

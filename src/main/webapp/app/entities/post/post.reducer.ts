@@ -36,6 +36,14 @@ export const getEntity = createAsyncThunk(
 export const createEntity = createAsyncThunk(
   'post/create_entity',
   async (entity: IPost, thunkAPI) => {
+    const today = new Date()
+    const year = today.getFullYear()
+    const month = (today.getMonth() + 1) < 10 ? ('0' + (today.getMonth() + 1)) : (today.getMonth() + 1)
+    const day = today.getDate() < 10 ? ('0' + today.getDate() ) : today.getDate()
+    const date = year + '-' + month + '-' + day;
+    console.error(entity.date)
+    console.error(date)
+    entity.date = date
     const result = await axios.post<IPost>(apiUrl, cleanEntity(entity));
     thunkAPI.dispatch(getEntities({}));
     return result;
