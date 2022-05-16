@@ -165,7 +165,7 @@
     "workbox-webpack-plugin": "6.4.2"
   },
   "engines": {
-    "node": ">=16.13.1"
+    "node": ">=14.17.6"
   },
   "cacheDirectories": [
     "node_modules"

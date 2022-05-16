@@ -21,7 +21,7 @@
                 <constraints nullable="true" />
             </column>
             <column name="author_id" type="varchar(100)">
-                <constraints nullable="true" unique="true" uniqueConstraintName="ux_comment__author_id" />
+                <constraints nullable="true" uniqueConstraintName="ux_comment__author_id" />
             </column>
             <column name="post_id" type="bigint">
                 <constraints nullable="true" />
