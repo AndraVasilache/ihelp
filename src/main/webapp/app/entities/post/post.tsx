@@ -104,13 +104,12 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
                      <div>
                        <Card>
                          <CardBody>
-                           <CardTitle tag="h5">
-                             <Translate contentKey={`ihelpApp.Tag.${post.tags}`} />
+                           <CardTitle tag="h5" className="text-center">
+                             <Translate contentKey={`ihelpApp.Tag.${post.tags}`} /> {}
+                             <Translate contentKey={`ihelpApp.Type.${post.types}`} />
                            </CardTitle>
-                           <CardSubtitle
-                             className="mb-2 text-muted"
-                             tag="h6">
-                             <Translate contentKey={`ihelpApp.Type.${post.types}`} /> -
+                           <p></p>
+                           <CardSubtitle className="mb-2 text-muted text-center" tag="h6">
                              {post.date ? <TextFormat type="date" value={post.date} format={APP_LOCAL_DATE_FORMAT} /> : null}
                            </CardSubtitle>
                            <CardText>
@@ -149,6 +148,21 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
                               <Translate contentKey="entity.action.delete">Delete</Translate>
                             </span>
                              </Button>
+
+                            {/* TODO create here function to see and add comments */}
+                            {/* <Button*/}
+                            {/*   tag={Link}*/}
+                            {/*   to={`${match.url}/${post.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}*/}
+                            {/*   color="primary"*/}
+                            {/*   size="sm"*/}
+                            {/*   data-cy="entityEditButton"*/}
+                            {/* >*/}
+                            {/*   <FontAwesomeIcon icon="pencil-alt" />{' '}*/}
+                            {/*   <span className="d-none d-md-inline">*/}
+                            {/*  <Translate contentKey="entity.action.edit">Edit</Translate>*/}
+                            {/* </span>*/}
+                            {/* </Button>*/}
+
                            </div>
                          </CardBody>
 

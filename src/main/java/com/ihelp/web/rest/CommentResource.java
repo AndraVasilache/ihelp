@@ -148,6 +148,14 @@ public class CommentResource {
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
 
+//    @GetMapping("/comments/{id}")
+//    public ResponseEntity<List<Comment>> getCommentsForPost(@PathVariable(value = "id", required = false) final Long id, Pageable pageable) {
+//        log.debug("REST request to get a page of Comments for Post");
+//        Page<Comment> page = commentService.findAll(pageable);
+//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+//        return ResponseEntity.ok().headers(headers).body(page.getContent());
+//    }
+
     /**
      * {@code GET  /comments/:id} : get the "id" comment.
      *
