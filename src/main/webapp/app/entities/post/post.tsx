@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, RouteComponentProps } from 'react-router-dom';
-import {Button, Card, CardBody, CardFooter, CardSubtitle, CardText, CardTitle, Collapse, Table} from 'reactstrap';
+import {Button, Card, CardBody, Row, CardSubtitle, CardText, CardTitle, Col, Collapse} from 'reactstrap';
 import { Translate, TextFormat, getSortState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
@@ -10,6 +10,10 @@ import { APP_DATE_FORMAT, APP_LOCAL_DATE_FORMAT } from 'app/config/constants';
 import { ASC, DESC, ITEMS_PER_PAGE, SORT } from 'app/shared/util/pagination.constants';
 import { overridePaginationStateWithQueryParams } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
+import {createAsyncThunk} from "@reduxjs/toolkit";
+import axios from "axios";
+import { IComment, defaultValue } from 'app/shared/model/comment.model';
+import {IQueryParams} from "app/shared/reducers/reducer.utils";
 
 export const Post = (props: RouteComponentProps<{ url: string }>) => {
   const dispatch = useAppDispatch();
@@ -18,9 +22,29 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
     overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
   );
 
+  //TODO: trebuie sa se faca dispatch nu prea intelrg cum
+
+  // const getComments = createAsyncThunk('comment/fetch_entity_list', async ({ page, size, sort }: IQueryParams) => {
+  //   const requestUrl = `api/comments${sort ? `?page=${page}&size=${size}&sort=${sort}&` : '?'}cacheBuster=${new Date().getTime()}`;
+  //   return axios.get<IComment[]>(requestUrl);
+  // });
+
+  // console.log("dsadsadsadsa")
+  // console.log(getEntities({
+  //   page: paginationState.activePage - 1,
+  //   size: paginationState.itemsPerPage,
+  //   sort: `${paginationState.sort},${paginationState.order}`,
+  // }))
+
   const postList = useAppSelector(state => state.post.entities);
   const loading = useAppSelector(state => state.post.loading);
   const totalItems = useAppSelector(state => state.post.totalItems);
+  const account = useAppSelector(state => state.authentication.account);
+  //TODO: de ce naiba nu se randeaza din prima ?
+  const commentList = useAppSelector(state => state.comment.entities);
+  const commentListFilteredWithUserId = commentList.filter(comment => comment.author.id === account.id)
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
 
   const getAllEntities = () => {
     dispatch(
@@ -88,7 +112,7 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
             <FontAwesomeIcon icon="sync" spin={loading} />{' '}
             <Translate contentKey="ihelpApp.post.home.refreshListLabel">Refresh List</Translate>
           </Button>
-          <Link to={`${match.url}/new`} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+          <Link to={{pathname: `post/new` , state : {account :{account_id: account.id,login:account.login}}}} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
             <FontAwesomeIcon icon="plus" />
             &nbsp;
             <Translate contentKey="ihelpApp.post.home.createLabel">Create new Post</Translate>
@@ -96,81 +120,126 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
         </div>
       </h2>
 
+
       <div className="table-responsive">
         {postList && postList.length > 0 ? (
-            <div>
-                 {postList.map((post, i) => (
-                   <div key={`entity-${i}`}>
-                     <div>
-                       <Card>
-                         <CardBody>
-                           <CardTitle tag="h5" className="text-center">
-                             <Translate contentKey={`ihelpApp.Tag.${post.tags}`} /> {}
-                             <Translate contentKey={`ihelpApp.Type.${post.types}`} />
-                           </CardTitle>
-                           <p></p>
-                           <CardSubtitle className="mb-2 text-muted text-center" tag="h6">
-                             {post.date ? <TextFormat type="date" value={post.date} format={APP_LOCAL_DATE_FORMAT} /> : null}
-                           </CardSubtitle>
-                           <CardText>
-                             {post.content}
-                             {/* <p>verified: {post.verified ? 'true' : 'false'}</p> */}
-                             {/* <p>completed: {post.completed ? 'true' : 'false'}</p> */}
-                           </CardText>
-                           <div className="btn-group flex-btn-group-container">
-                             <Button tag={Link} to={`${match.url}/${post.id}`} color="info" size="sm" data-cy="entityDetailsButton">
-                               <FontAwesomeIcon icon="eye" />{' '}
-                               <span className="d-none d-md-inline">
+          <div>
+            {postList.map((post, i) => (
+              <div key={`entity-${i}`}>
+                <div>
+                  <Card>
+                    <CardBody>
+                      <CardTitle tag="h5">
+                        <Row>
+                          <Col >
+                            <Translate contentKey={`ihelpApp.Tag.${post.tags}`} /> { }
+                            <Translate contentKey={`ihelpApp.Type.${post.types}`} />
+                          </Col>
+                          <Col>
+                            {post.verified ?  <h4 style={{color:"green"}}>Verified</h4> :  <h4 style={{color:"red"}}>Not Verified</h4> }
+                          </Col>
+                        </Row>
+                      </CardTitle>
+
+                      <CardSubtitle className="mb-2 text-muted " tag="h6">
+                        {post.date ? <TextFormat type="date" value={post.date} format={APP_LOCAL_DATE_FORMAT} /> : null}
+                      </CardSubtitle>
+                      <CardText>
+                        {post.content}
+
+                        <div className="mt-2">
+                          {post.completed ?   <Card style={{backgroundColor:"#B4F8C8"}}> Completed </Card> :   <Card style={{backgroundColor:"#FFAEBC"}}> Not Completed </Card> }
+                        </div>
+                      </CardText>
+                      <Row>
+                        <Col>
+                          <div className="btn-group flex-btn-group-container">
+                            <Button tag={Link} to={`${match.url}/${post.id}`} color="info" size="sm" data-cy="entityDetailsButton">
+                              <FontAwesomeIcon icon="eye" />{' '}
+                              <span className="d-none d-md-inline">
                               <Translate contentKey="entity.action.view">View</Translate>
                             </span>
-                             </Button>
-                             <Button
-                               tag={Link}
-                               to={`${match.url}/${post.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                               color="primary"
-                               size="sm"
-                               data-cy="entityEditButton"
-                             >
-                               <FontAwesomeIcon icon="pencil-alt" />{' '}
-                               <span className="d-none d-md-inline">
+                            </Button>
+                            <Button
+                              tag={Link}
+                              to={`${match.url}/${post.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                              color="primary"
+                              size="sm"
+                              data-cy="entityEditButton"
+                            >
+                              <FontAwesomeIcon icon="pencil-alt" />{' '}
+                              <span className="d-none d-md-inline">
                               <Translate contentKey="entity.action.edit">Edit</Translate>
                             </span>
-                             </Button>
-                             <Button
-                               tag={Link}
-                               to={`${match.url}/${post.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                               color="danger"
-                               size="sm"
-                               data-cy="entityDeleteButton"
-                             >
-                               <FontAwesomeIcon icon="trash" />{' '}
-                               <span className="d-none d-md-inline">
+                            </Button>
+                            <Button
+                              tag={Link}
+                              to={`${match.url}/${post.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                              color="danger"
+                              size="sm"
+                              data-cy="entityDeleteButton"
+                            >
+                              <FontAwesomeIcon icon="trash" />{' '}
+                              <span className="d-none d-md-inline">
                               <Translate contentKey="entity.action.delete">Delete</Translate>
                             </span>
-                             </Button>
+                            </Button>
 
-                            {/* TODO create here function to see and add comments */}
-                            {/* <Button*/}
-                            {/*   tag={Link}*/}
-                            {/*   to={`${match.url}/${post.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}*/}
-                            {/*   color="primary"*/}
-                            {/*   size="sm"*/}
-                            {/*   data-cy="entityEditButton"*/}
-                            {/* >*/}
-                            {/*   <FontAwesomeIcon icon="pencil-alt" />{' '}*/}
-                            {/*   <span className="d-none d-md-inline">*/}
-                            {/*  <Translate contentKey="entity.action.edit">Edit</Translate>*/}
-                            {/* </span>*/}
-                            {/* </Button>*/}
+                            {/*//account.id e idul accountului*/}
+                            {/*//post.id e idup postului*/}
+                          </div>
+                        </Col>
+                        <Col className="flex">
+                          <Link to={{pathname: `comment/new` , state : {account :{account_id: account.id,login:account.login}, post_data : post} }}  className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityCreateButton">
+                            <FontAwesomeIcon icon="plus" />
+                            &nbsp;
+                            <Translate contentKey="ihelpApp.comment.home.createLabel">Create new Comment</Translate>
+                          </Link>
+                        </Col>
+                      </Row>
 
-                           </div>
-                         </CardBody>
 
-                       </Card>
-                     </div>
-                   </div>
-                  ))}
+                      <Card
+                        className="border m-1 shadow-sm vw-90 card-container"
+                      >
+                        <Button onClick={()=>{
+                          console.log(commentListFilteredWithUserId)
+                          toggle()}} className="justify-content-center d-flex">
+                          Show All Comments
+                        </Button>
+                        <Collapse isOpen={isOpen}>
+                          <CardText className="card-text-sm" aria-expanded="false">
+                            {commentListFilteredWithUserId.map((comment,y) => {
+                              return(                   <div key={`entity-${y}`}>
+                                {/*TODO: this should be done for each child in a separate map*/}
+                                <div className="card">
+                                  <div className="card-header">
+                                    {comment.author.email}
+                                  </div>
+                                  <div className="card-body">
+                                    <blockquote className="blockquote mb-0">
+                                      <p>{comment.content}</p>
+                                      <footer className="blockquote-footer">{comment.date}</footer>
+                                    </blockquote>
+                                  </div>
+                                </div>
+                              </div>)
+                            })}
+                          </CardText>
+                        </Collapse>
+
+
+                      </Card>
+
+                    </CardBody>
+
+
+
+                  </Card>
                 </div>
+              </div>
+            ))}
+          </div>
         ) : (
           !loading && (
             <div className="alert alert-warning">
@@ -178,6 +247,7 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
             </div>
           )
         )}
+
       </div>
       {totalItems ? (
         <div className={postList && postList.length > 0 ? '' : 'd-none'}>

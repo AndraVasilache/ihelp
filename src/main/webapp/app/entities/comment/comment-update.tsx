@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import {Link, RouteComponentProps, useLocation} from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -14,9 +14,15 @@ import { convertDateTimeFromServer, convertDateTimeToServer, displayDefaultDateT
 import { mapIdList } from 'app/shared/util/entity-utils';
 import { useAppDispatch, useAppSelector } from 'app/config/store';
 
+
 export const CommentUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
-
+  const data = useLocation()
+  const data_destructurised = data.state
+  console.log(data.state)
+  console.log("Here is state data")
+  const author_id = "4c973896-5761-41fc-8217-07c5d13a004b"
+  const post_id = "1251"
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const users = useAppSelector(state => state.userManagement.users);
@@ -26,7 +32,7 @@ export const CommentUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const updating = useAppSelector(state => state.comment.updating);
   const updateSuccess = useAppSelector(state => state.comment.updateSuccess);
   const handleClose = () => {
-    props.history.push('/comment');
+    props.history.push('/post');
   };
 
   useEffect(() => {
@@ -44,13 +50,48 @@ export const CommentUpdate = (props: RouteComponentProps<{ id: string }>) => {
     }
   }, [updateSuccess]);
 
+
+
   const saveEntity = values => {
+
+    console.log({
+      "id": 1251,
+      "date": "2022-05-17",
+      "content": "dsdsa",
+      "location": "fsafsafs",
+      "verified": true,
+      "completed": false,
+      "tags": "Housing",
+      "types": "Offer",
+      "poster": {
+        "id": "4c973896-5761-41fc-8217-07c5d13a004b",
+        "login": "admin",
+        "firstName": "Admin",
+        "lastName": "Administrator",
+        "email": "admin@localhost",
+        "activated": true,
+        "langKey": "en",
+        "imageUrl": null,
+      }});
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    console.log(data_destructurised.post_data)
+    console.log({id:author_id,login:"admin"})
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    console.log({id:data_destructurised.account.account_id,login:data_destructurised.account.login})
+
+
     const entity = {
       ...commentEntity,
       ...values,
-      author: users.find(it => it.id.toString() === values.author.toString()),
-      post: posts.find(it => it.id.toString() === values.post.toString()),
-    };
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      author: {id:data_destructurised.account.account_id,login:data_destructurised.account.login},
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      post: data_destructurised.post_data
+      };
 
     if (isNew) {
       dispatch(createEntity(entity));
@@ -100,27 +141,8 @@ export const CommentUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 data-cy="content"
                 type="text"
               />
-              <ValidatedField id="comment-author" name="author" data-cy="author" label={translate('ihelpApp.comment.author')} type="select">
-                <option value="" key="0" />
-                {users
-                  ? users.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
-              <ValidatedField id="comment-post" name="post" data-cy="post" label={translate('ihelpApp.comment.post')} type="select">
-                <option value="" key="0" />
-                {posts
-                  ? posts.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.id}
-                      </option>
-                    ))
-                  : null}
-              </ValidatedField>
-              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/comment" replace color="info">
+
+              <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/post" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
                 &nbsp;
                 <span className="d-none d-md-inline">

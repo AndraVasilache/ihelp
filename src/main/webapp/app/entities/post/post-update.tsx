@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, RouteComponentProps } from 'react-router-dom';
+import {Link, RouteComponentProps, useLocation} from 'react-router-dom';
 import { Button, Row, Col, FormText } from 'reactstrap';
 import { isNumber, Translate, translate, ValidatedField, ValidatedForm } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -16,7 +16,8 @@ import { Type } from 'app/shared/model/enumerations/type.model';
 
 export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
-
+  const data = useLocation();
+  const data_destructurised = data.state
   const [isNew] = useState(!props.match.params || !props.match.params.id);
 
   const users = useAppSelector(state => state.userManagement.users);
@@ -50,7 +51,9 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
     const entity = {
       ...postEntity,
       ...values,
-      poster: users.find(it => it.id.toString() === values.poster.toString()),
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      poster:  {id:data_destructurised.account.account_id,login:data_destructurised.account.login},
     };
 
     if (isNew) {
@@ -136,16 +139,6 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                     {translate('ihelpApp.Type.' + type)}
                   </option>
                 ))}
-              </ValidatedField>
-              <ValidatedField id="post-poster" name="poster" data-cy="poster" label={translate('ihelpApp.post.poster')} type="select">
-                <option value="" key="0" />
-                {users
-                  ? users.map(otherEntity => (
-                      <option value={otherEntity.id} key={otherEntity.id}>
-                        {otherEntity.login}
-                      </option>
-                    ))
-                  : null}
               </ValidatedField>
               <Button tag={Link} id="cancel-save" data-cy="entityCreateCancelButton" to="/post" replace color="info">
                 <FontAwesomeIcon icon="arrow-left" />
