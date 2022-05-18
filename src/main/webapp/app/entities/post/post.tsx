@@ -160,25 +160,21 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
                               <Translate contentKey="entity.action.view">View</Translate>
                             </span>
                             </Button>
-                            <Button
-                              tag={Link}
-                              to={`${match.url}/${post.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
-                              color="primary"
-                              size="sm"
-                              data-cy="entityEditButton"
-                            >
-                              <FontAwesomeIcon icon="pencil-alt" />{' '}
-                              <span className="d-none d-md-inline">
+                              {/*TODO: when clicking on edit it does not go on the page, it goes only if the page is reloaded*/}
+                              <Link to={{pathname: `${match.url}/${post.id}/edit?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`,state : {account :{account_id: account.id,login:account.login}, post_data : post}}} className="btn btn-primary jh-create-entity" id="jh-create-entity" data-cy="entityUpdateButton" >
+                                <FontAwesomeIcon icon="pencil-alt" />{' '}
+                                <span className="d-none d-md-inline">
                               <Translate contentKey="entity.action.edit">Edit</Translate>
                             </span>
-                            </Button>
+                              </Link>
                             <Button
                               tag={Link}
-                              to={`${match.url}/${post.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
+                              to={`post/${post.id}/delete?page=${paginationState.activePage}&sort=${paginationState.sort},${paginationState.order}`}
                               color="danger"
                               size="sm"
                               data-cy="entityDeleteButton"
                             >
+
                               <FontAwesomeIcon icon="trash" />{' '}
                               <span className="d-none d-md-inline">
                               <Translate contentKey="entity.action.delete">Delete</Translate>

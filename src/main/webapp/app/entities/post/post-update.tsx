@@ -19,7 +19,8 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const data = useLocation();
   const data_destructurised = data.state
   const [isNew] = useState(!props.match.params || !props.match.params.id);
-
+  console.log(data_destructurised)
+  console.log("sdaaaaaaaaaaaaaaaa")
   const users = useAppSelector(state => state.userManagement.users);
   const postEntity = useAppSelector(state => state.post.entity);
   const loading = useAppSelector(state => state.post.loading);
@@ -48,6 +49,12 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
   }, [updateSuccess]);
 
   const saveEntity = values => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    console.log(data_destructurised.account.account_id)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    console.log(data_destructurised.account.login)
     const entity = {
       ...postEntity,
       ...values,

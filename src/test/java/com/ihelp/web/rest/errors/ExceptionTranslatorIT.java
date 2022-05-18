@@ -109,6 +109,8 @@ class ExceptionTranslatorIT {
             .andExpect(jsonPath("$.title").value("test response status"));
     }
 
+
+    //TODO: delete this
     @Test
     void testInternalServerError() throws Exception {
         mockMvc
