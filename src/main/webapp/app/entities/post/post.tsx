@@ -3,7 +3,7 @@ import { Link, RouteComponentProps } from 'react-router-dom';
 import {Button, Card, CardBody, Row, CardSubtitle, CardText, CardTitle, Col, Collapse} from 'reactstrap';
 import { Translate, TextFormat, getSortState, JhiPagination, JhiItemCount } from 'react-jhipster';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
+import {getEntities as getCommentEntities}  from '../comment/comment.reducer' ;
 import PostItem from './postItem'
 import { getEntities } from './post.reducer';
 import { IPost } from 'app/shared/model/post.model';
@@ -23,19 +23,9 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
     overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
   );
 
-  //TODO: trebuie sa se faca dispatch nu prea intelrg cum
-
-  // const getComments = createAsyncThunk('comment/fetch_entity_list', async ({ page, size, sort }: IQueryParams) => {
-  //   const requestUrl = `api/comments${sort ? `?page=${page}&size=${size}&sort=${sort}&` : '?'}cacheBuster=${new Date().getTime()}`;
-  //   return axios.get<IComment[]>(requestUrl);
-  // });
-
-  // console.log("dsadsadsadsa")
-  // console.log(getEntities({
-  //   page: paginationState.activePage - 1,
-  //   size: paginationState.itemsPerPage,
-  //   sort: `${paginationState.sort},${paginationState.order}`,
-  // }))
+  const [paginationStateComments, setPaginationStateComments] = useState(
+    overridePaginationStateWithQueryParams(getSortState(props.location, ITEMS_PER_PAGE, 'id'), props.location.search)
+  );
 
   const postList = useAppSelector(state => state.post.entities);
   const loading = useAppSelector(state => state.post.loading);
@@ -45,7 +35,16 @@ export const Post = (props: RouteComponentProps<{ url: string }>) => {
   const commentList = useAppSelector(state => state.comment.entities);
 
 
+
   const getAllEntities = () => {
+    dispatch(
+      getCommentEntities({
+        page: paginationStateComments.activePage - 1,
+        size: paginationStateComments.itemsPerPage,
+        sort: `${paginationStateComments.sort},${paginationStateComments.order}`,
+      })
+    );
+
     dispatch(
       getEntities({
         page: paginationState.activePage - 1,
