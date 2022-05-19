@@ -74,7 +74,7 @@ export const PostDetail = (props: RouteComponentProps<{ id: string }>) => {
           <dt>
             <Translate contentKey="ihelpApp.post.poster">Poster</Translate>
           </dt>
-          <dd>{postEntity.poster ? postEntity.poster.id : ''}</dd>
+          <dd>{postEntity.poster ? postEntity.poster.email : ''}</dd>
         </dl>
         <Button tag={Link} to="/post" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}

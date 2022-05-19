@@ -47,10 +47,15 @@ const Header = (props: IHeaderProps) => {
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Home />
-            {props.isAuthenticated && <EntitiesMenu />}
+            {props.isAuthenticated &&  <EntitiesMenu />}
             {props.isAuthenticated && props.isAdmin && (
               <AdminMenu showOpenAPI={props.isOpenAPIEnabled} showDatabase={!props.isInProduction} />
             )}
+
+            {/*TODO: DO this when comments are loaded on posts age - it has something to do with dispatcher*/}
+            {/*{props.isAuthenticated && props.isAdmin && (*/}
+            {/*  <EntitiesMenu />*/}
+            {/*)}*/}
             <NavDropdown name="Posts Dashboard">
               <DropdownItem onClick={()=>{
                 history.push("/post");

@@ -44,11 +44,11 @@ export const CommentDetail = (props: RouteComponentProps<{ id: string }>) => {
           <dt>
             <Translate contentKey="ihelpApp.comment.author">Author</Translate>
           </dt>
-          <dd>{commentEntity.author ? commentEntity.author.id : ''}</dd>
+          <dd>{commentEntity.author ? commentEntity.author.email : ''}</dd>
           <dt>
             <Translate contentKey="ihelpApp.comment.post">Post</Translate>
           </dt>
-          <dd>{commentEntity.post ? commentEntity.post.id : ''}</dd>
+          <dd>{commentEntity.post ? commentEntity.post.content : ''}</dd>
         </dl>
         <Button tag={Link} to="/comment" replace color="info" data-cy="entityDetailsBackButton">
           <FontAwesomeIcon icon="arrow-left" />{' '}
