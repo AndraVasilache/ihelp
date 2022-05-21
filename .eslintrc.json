@@ -67,6 +67,7 @@
     "no-eval": "error",
     "no-new": "error",
     "no-var": "error",
+    "no-undef": "off",
     "radix": "error",
     "eqeqeq": ["error", "always", { "null": "ignore" }],
     "prefer-const": "error",
