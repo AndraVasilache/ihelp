@@ -46,27 +46,18 @@ const PostItem = (props) => {
                   <div className="btn-group flex-btn-group-container">
                     <Button tag={Link} to={`${props.match.url}/${props.post.id}`} color="info" size="sm" data-cy="entityDetailsButton">
                       <FontAwesomeIcon icon="eye" />{' '}
-                      <span className="d-none d-md-inline">
-                              <Translate contentKey="entity.action.view">View</Translate>
-                            </span>
+                      <span className="d-none d-md-inline"><Translate contentKey="entity.action.view">View</Translate></span>
                     </Button>
-                    {/*TODO: when clicking on edit it does not go on the page, it goes only if the page is reloaded*/}
+
                     {props.post.poster.id === props.account_id || props.account_login === "admin" ?
-                      <Link to={{
-                        pathname: `${props.match.url}/${props.post.id}/edit?page=${props.paginationState.activePage}&sort=${props.paginationState.sort},${props.paginationState.order}`,
-                        state: {
-                          account: {account_id: props.account_id, login: props.account_login},
-                          post_data: props.post
-                        }
-                      }} className="btn btn-primary jh-create-entity" id="jh-create-entity"
-                            data-cy="entityUpdateButton">
-                        <FontAwesomeIcon icon="pencil-alt"/>{' '}
-                        <span className="d-none d-md-inline">
+                    <Button tag={Link} to={`${props.match.url}/${props.post.id}/edit`} color="primary" size="sm" data-cy="entityDetailsButton">
+                      <FontAwesomeIcon icon="pencil-alt"/>{' '}
+                      <span className="d-none d-md-inline">
                               <Translate contentKey="entity.action.edit">Edit</Translate>
                             </span>
-                      </Link>
-
-                      :<div></div>}
+                    </Button>
+                      :
+                      <div></div>}
 
                     {props.post.poster.id === props.account_id || props.account_login === "admin" ?
                       <Button
@@ -84,11 +75,6 @@ const PostItem = (props) => {
                       </Button>
                       : <div></div>
                     }
-
-
-
-                    {/*//account.id e idul accountului*/}
-                    {/*//post.id e idup postului*/}
                   </div>
                 </Col>
                 <Col className="flex">
@@ -112,7 +98,6 @@ const PostItem = (props) => {
                   <CardText className="card-text-sm" aria-expanded="false">
                     {filter_comments_by_post.map((comment,y) => {
                       return(                   <div key={`entity-${y}`}>
-                        {/*TODO: this should be done for each child in a separate map*/}
                         <div className="card">
                           <div className="card-header">
                             {comment.author.email}
@@ -128,14 +113,8 @@ const PostItem = (props) => {
                     })}
                   </CardText>
                 </Collapse>
-
-
               </Card>
-
             </CardBody>
-
-
-
           </Card>
         </div>
     )

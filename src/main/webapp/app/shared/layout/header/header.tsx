@@ -2,9 +2,9 @@ import './header.scss';
 
 import React, { useState } from 'react';
 import { Translate, Storage } from 'react-jhipster';
-import {Navbar, Nav, NavbarToggler, Collapse, DropdownItem} from 'reactstrap';
+import {Navbar, Nav, NavbarToggler, Collapse, DropdownItem, Button} from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
-import { useHistory } from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 import { Home, Brand } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
@@ -12,6 +12,7 @@ import { useAppDispatch } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';
 import {NavDropdown} from "app/shared/layout/menus/menu-components";
 import {languages, locales} from "app/config/translation";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -36,8 +37,6 @@ const Header = (props: IHeaderProps) => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
-
   return (
     <div id="app-header">
       <LoadingBar className="loading-bar" />
@@ -51,15 +50,19 @@ const Header = (props: IHeaderProps) => {
               <AdminMenu showOpenAPI={props.isOpenAPIEnabled} showDatabase={!props.isInProduction} />
             )}
 
-            {/*TODO: DO this when comments are loaded on posts age - it has something to do with dispatcher*/}
-            {props.isAuthenticated && props.isAdmin && (
-              <EntitiesMenu />
+            {props.isAuthenticated && (
+              <NavDropdown name="Posts Dashboard">
+                <DropdownItem onClick={()=>{
+                  history.push("/post");
+                }} name="post something">Post</DropdownItem>
+              </NavDropdown>
             )}
-            <NavDropdown name="Posts Dashboard">
-              <DropdownItem onClick={()=>{
-                history.push("/post");
-              }} name="post something">Post</DropdownItem>
-            </NavDropdown>
+
+            {props.isAuthenticated && (
+              <Button tag={Link} to={`/post`} color="primary">
+                <span className="d-none d-md-inline"><Translate contentKey="entity.action.view">View</Translate></span>
+              </Button>
+            )}
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
             <AccountMenu isAuthenticated={props.isAuthenticated} />
           </Nav>
