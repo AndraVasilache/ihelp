@@ -2,7 +2,7 @@ import './header.scss';
 
 import React, { useState } from 'react';
 import { Translate, Storage } from 'react-jhipster';
-import {Navbar, Nav, NavbarToggler, Collapse, DropdownItem, Button} from 'reactstrap';
+import {Navbar, Nav, NavbarToggler, Collapse, DropdownItem, Button, NavLink} from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
 import {Link, useHistory} from "react-router-dom";
 
@@ -51,17 +51,9 @@ const Header = (props: IHeaderProps) => {
             )}
 
             {props.isAuthenticated && (
-              <NavDropdown name="Posts Dashboard">
-                <DropdownItem onClick={()=>{
-                  history.push("/post");
-                }} name="post something">Post</DropdownItem>
-              </NavDropdown>
-            )}
-
-            {props.isAuthenticated && (
-              <Button tag={Link} to={`/post`} color="primary">
-                <span className="d-none d-md-inline"><Translate contentKey="entity.action.view">View</Translate></span>
-              </Button>
+              <NavLink tag={Link} to="/post" className="d-flex align-items-center">
+                <span className="d-none d-md-inline"><Translate contentKey="ihelpApp.post.home.title">Posts</Translate></span>
+              </NavLink>
             )}
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
             <AccountMenu isAuthenticated={props.isAuthenticated} />
