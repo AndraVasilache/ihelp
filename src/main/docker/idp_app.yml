@@ -1,6 +1,17 @@
 # This configuration is intended for development purpose, it's **your** responsibility to harden it for production
 version: '3.8'
 services:
+  ihelp-fontend:
+    container_name: ihelp_frontend
+    build:
+      context: ../../../
+      dockerfile: src/main/docker/ihelp-frontend.Dockerfile
+    ports:
+      - 127.0.0.1:9000:9000
+    depends_on:
+      ihelp-app:
+        condition: service_healthy
+
   ihelp-app:
     image: ihelp
     environment:
@@ -18,13 +29,13 @@ services:
     ports:
       - 127.0.0.1:8080:8080
     restart: always
-    # healthcheck:
-    #   # test: ["CMD", "pg_isready -U postgres"]
-    #   test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
-    #   interval: 20s
-    #   timeout: 5s
-    #   retries: 5
-    #   start_period: 40s
+    healthcheck:
+      # test: ["CMD", "pg_isready -U postgres"]
+      test: "curl localhost:8080/actuator/health | grep timestamp || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     depends_on:
       ihelp-postgresql:
         condition: service_healthy
