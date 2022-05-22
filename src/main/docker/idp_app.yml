@@ -30,6 +30,10 @@ services:
         condition: service_healthy
       keycloak:
         condition: service_healthy
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://localhost:3100/loki/api/v1/push"
 
 
 
@@ -53,6 +57,10 @@ services:
       interval: 7s
       timeout: 4s
       retries: 30
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://localhost:3100/loki/api/v1/push"
 
   keycloak:
     image: jboss/keycloak:15.0.2
@@ -99,6 +107,46 @@ services:
     ports:
       - 127.0.0.1:9444:9443
       - 127.0.0.1:8000:8000
+    logging:
+        driver: loki
+        options:
+          loki-url: "http://localhost:3100/loki/api/v1/push"
+
+  ihelp-loki:
+    container_name: loki
+    image: grafana/loki:2.3.0
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:3100:3100"
+    volumes:
+      - ./loki/config/loki-config.yaml:/etc/loki/loki-config.yaml
+      - ./loki/data:/data/loki
+    command: -config.file=/etc/loki/loki-config.yaml
+
+  ihelp-grafana:
+    image: "grafana/grafana:latest"
+    restart: unless-stopped
+    user: "0"
+    volumes:
+      - "./grafana/data:/var/lib/grafana"
+    ports:
+      - 3000:3000
+    environment:
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_SECURITY_ALLOW_EMBEDDING=true
+
+  # ihelp-promtail:
+  #   container_name: promtail
+  #   image: grafana/promtail:2.3.0
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/lib/docker/containers:/var/lib/docker/containers:ro
+  #     - ./promtail/config/promtail-config.yaml:/etc/promtail/promtail-config.yaml
+  #   command: -config.file=/etc/promtail/promtail-config.yaml
+  #   depends_on:
+  #     - ihelp-loki
 
 volumes:
   portainer_data:
