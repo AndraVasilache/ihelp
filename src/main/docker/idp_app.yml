@@ -5,7 +5,7 @@ services:
     image: ihelp
     environment:
       - _JAVA_OPTIONS=-Xmx512m -Xms256m
-      - SPRING_PROFILES_ACTIVE=prod,api-docs
+      - SPRING_PROFILES_ACTIVE=dev,api-docs
       - MANAGEMENT_METRICS_EXPORT_PROMETHEUS_ENABLED=true
       - SPRING_DATASOURCE_URL=jdbc:postgresql://ihelp-postgresql:5432/ihelp
       - SPRING_LIQUIBASE_URL=jdbc:postgresql://ihelp-postgresql:5432/ihelp
@@ -30,6 +30,8 @@ services:
         condition: service_healthy
       keycloak:
         condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
 
 
 
@@ -49,7 +51,7 @@ services:
     restart: always
     healthcheck:
       # test: ["CMD", "pg_isready -U postgres"]
-      test: pg_isready -U postgres
+      test: pg_isready -U ihelp
       interval: 7s
       timeout: 4s
       retries: 30
@@ -99,6 +101,18 @@ services:
     ports:
       - 127.0.0.1:9444:9443
       - 127.0.0.1:8000:8000
+
+  rabbitmq:
+    image: rabbitmq:management
+    restart: "no"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 7s
+      timeout: 3s
+      retries: 10
 
 volumes:
   portainer_data:
