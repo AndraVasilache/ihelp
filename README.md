@@ -103,9 +103,10 @@ npm start
 The `npm run` command will list all the scripts available to run for this project.
 
 ###Relevant documents
-1. [Wireframes](wireframes/ihelp.fig)
-2. [Mockups](wireframes/mockup.pdf)
-3. [Document cu arhitectura macro (la nivel de sistem)](documentation/Document%20cu%20arhitectura%20macro.png)
-4. [Document cu arhitectura de domeniu (la nivel de date)](documentation/Document%20cu%20arhitectura%20macro.png)
-5. [Codul sursa](src)
-6. [Fisierele YAML de configuratie infrastructura](src/main/resources/config/application-dev.yml)
+1. [User stories](documentation/User%20stories.md)
+2. [Wireframes](wireframes/ihelp.fig)
+3. [Mockups](wireframes/mockup.pdf)
+4. [Document cu arhitectura macro (la nivel de sistem)](documentation/Document%20cu%20arhitectura%20macro.png)
+5. [Document cu arhitectura de domeniu (la nivel de date)](documentation/Document%20cu%20arhitectura%20macro.png)
+6. [Codul sursa](src)
+7. [Fisierele YAML de configuratie infrastructura](src/main/resources/config/application-dev.yml)
