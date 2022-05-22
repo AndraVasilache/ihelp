@@ -2,9 +2,9 @@ import './header.scss';
 
 import React, { useState } from 'react';
 import { Translate, Storage } from 'react-jhipster';
-import {Navbar, Nav, NavbarToggler, Collapse, DropdownItem} from 'reactstrap';
+import {Navbar, Nav, NavbarToggler, Collapse, DropdownItem, Button, NavLink} from 'reactstrap';
 import LoadingBar from 'react-redux-loading-bar';
-import { useHistory } from "react-router-dom";
+import {Link, useHistory} from "react-router-dom";
 
 import { Home, Brand } from './header-components';
 import { AdminMenu, EntitiesMenu, AccountMenu, LocaleMenu } from '../menus';
@@ -12,6 +12,7 @@ import { useAppDispatch } from 'app/config/store';
 import { setLocale } from 'app/shared/reducers/locale';
 import {NavDropdown} from "app/shared/layout/menus/menu-components";
 import {languages, locales} from "app/config/translation";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 export interface IHeaderProps {
   isAuthenticated: boolean;
@@ -36,8 +37,6 @@ const Header = (props: IHeaderProps) => {
 
   const toggleMenu = () => setMenuOpen(!menuOpen);
 
-  /* jhipster-needle-add-element-to-menu - JHipster will add new menu items here */
-
   return (
     <div id="app-header">
       <LoadingBar className="loading-bar" />
@@ -47,21 +46,16 @@ const Header = (props: IHeaderProps) => {
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Home />
+            {props.isAuthenticated && (
+              <NavLink tag={Link} to="/post" className="d-flex align-items-center">
+                <span className="d-none d-md-inline"><Translate contentKey="ihelpApp.post.home.title">Posts</Translate></span>
+              </NavLink>
+            )}
             {props.isAuthenticated && props.isAdmin && (
               <AdminMenu showOpenAPI={props.isOpenAPIEnabled} showDatabase={!props.isInProduction} />
             )}
-
-            {/*TODO: DO this when comments are loaded on posts age - it has something to do with dispatcher*/}
-            {props.isAuthenticated && props.isAdmin && (
-              <EntitiesMenu />
-            )}
-            <NavDropdown name="Posts Dashboard">
-              <DropdownItem onClick={()=>{
-                history.push("/post");
-              }} name="post something">Post</DropdownItem>
-            </NavDropdown>
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
-            <AccountMenu isAuthenticated={props.isAuthenticated} />
+            <AccountMenu isAuthenticated={props.isAuthenticated}/>
           </Nav>
         </Collapse>
       </Navbar>

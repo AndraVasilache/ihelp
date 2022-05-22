@@ -25,19 +25,15 @@ export const Home = () => {
 
 
   return (
-    <Row>
-      <Col md="4" className="pad">
+    <Row style={{display: 'flex', justifyContent: 'center'}}>
         <span className="nowar rounded" />
-      </Col>
       <Col md="8">
-        <h2>
-          <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>
-        </h2>
-        <p className="lead">
-          <Translate contentKey="home.subtitle">This is your homepage</Translate>
-        </p>
         {account && account.login ? (
           <div>
+            <h2>
+              <Translate contentKey="home.title"> Welcome to iHelp!</Translate>
+              {account.name}
+            </h2>
             <Alert color="success">
               <Translate contentKey="home.logged.message" interpolate={{ username: account.login }}>
                 You are logged in as user {account.login}.
@@ -46,18 +42,6 @@ export const Home = () => {
           </div>
         ) : (
           <div>
-            <Alert color="warning">
-              <Translate contentKey="global.messages.info.authenticated.prefix">Please </Translate>
-              <a href={getLoginUrl()} className="alert-link">
-                <Translate contentKey="global.messages.info.authenticated.link">sign in</Translate>
-              </a>
-
-              <Translate contentKey="global.messages.info.authenticated.suffix">
-                , you can try the default accounts:
-                <br />- Administrator (login=&quot;admin&quot; and password=&quot;admin&quot;)
-                <br />- User (login=&quot;user&quot; and password=&quot;user&quot;).
-              </Translate>
-            </Alert>
           </div>
         )}
 
@@ -76,20 +60,18 @@ export const Home = () => {
         <ul>
           <li>
             <a href="mailto: radurbalaux@yahoo.com" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.homepage">radurbalaux@yahoo.com</Translate>
+              radurbalaux@yahoo.com
             </a>
           </li>
 
-
-
           <li>
-            <a href="mailto: andraxvasiclache@yahoo.com" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.bugtracker">andraxvasiclache@yahoo.com</Translate>
+            <a href="mailto: vasilacheandragabriela@gmail.com" target="_blank" rel="noopener noreferrer">
+              vasilacheandragabriela@gmail.com
             </a>
           </li>
           <li>
             <a href="https://github.com/AndraVasilache/ihelp" target="_blank" rel="noopener noreferrer">
-              <Translate contentKey="home.link.chat">Project github</Translate>
+              Project github
             </a>
           </li>
         </ul>
