@@ -25,10 +25,8 @@ export const Home = () => {
 
 
   return (
-    <Row>
-      <Col md="4" className="pad">
+    <Row style={{display: 'flex', justifyContent: 'center'}}>
         <span className="nowar rounded" />
-      </Col>
       <Col md="8">
         <h2>
           <Translate contentKey="home.title">Welcome, Java Hipster!</Translate>

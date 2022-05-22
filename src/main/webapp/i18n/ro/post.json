@@ -6,7 +6,9 @@
         "refreshListLabel": "Refresh list",
         "createLabel": "Creeare o nouă entitate Post",
         "createOrEditLabel": "Creeare sau editare Post",
-        "notFound": "No Posts found"
+        "notFound": "No Posts found",
+        "verified": "This Post is verified by an admin",
+        "not-verified": "This Post is not verified by an admin"
       },
       "created": "A fost creată o nouă entitate Post cu identificatorul {{ param }}",
       "updated": "Post cu identificatorul {{ param }} a fost actualizată",
