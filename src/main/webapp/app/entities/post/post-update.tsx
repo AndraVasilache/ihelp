@@ -18,9 +18,10 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
   const dispatch = useAppDispatch();
   const data = useLocation();
   const data_destructurised = data.state
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const check = (data_destructurised.account.login === "admin")
   const [isNew] = useState(!props.match.params || !props.match.params.id);
-  console.log(data_destructurised)
-  console.log("sdaaaaaaaaaaaaaaaa")
   const users = useAppSelector(state => state.userManagement.users);
   const postEntity = useAppSelector(state => state.post.entity);
   const loading = useAppSelector(state => state.post.loading);
@@ -49,6 +50,7 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
   }, [updateSuccess]);
 
   const saveEntity = values => {
+
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     console.log(data_destructurised.account.account_id)
@@ -117,6 +119,7 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 data-cy="location"
                 type="text"
               />
+              {check &&
               <ValidatedField
                 label={translate('ihelpApp.post.verified')}
                 id="post-verified"
@@ -124,15 +127,15 @@ export const PostUpdate = (props: RouteComponentProps<{ id: string }>) => {
                 data-cy="verified"
                 check
                 type="checkbox"
-              />
-              <ValidatedField
+              />}
+              < ValidatedField
                 label={translate('ihelpApp.post.completed')}
                 id="post-completed"
                 name="completed"
                 data-cy="completed"
                 check
                 type="checkbox"
-              />
+                />
               <ValidatedField label={translate('ihelpApp.post.tags')} id="post-tags" name="tags" data-cy="tags" type="select">
                 {tagValues.map(tag => (
                   <option value={tag} key={tag}>
