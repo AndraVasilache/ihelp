@@ -56,14 +56,20 @@ const PostItem = (props) => {
                     </Button>
 
                     {props.post.poster.id === props.account_id || props.account_login === "admin" ?
-                    <Button tag={Link} to={`${props.match.url}/${props.post.id}/edit`} style={{backgroundColor: "#f6ad44"}} size="sm" data-cy="entityDetailsButton">
-                      <FontAwesomeIcon icon="pencil-alt"/>{' '}
-                      <span className="d-none d-md-inline">
+                      <Link style={{backgroundColor: "#f6ad44"}} to={{
+                        pathname: `post/${props.post.id}/edit`,
+                        state: {
+                          account: {account_id: props.account_id, login: props.account_login},
+                          post_data: props.post
+                        }
+                      }} className="btn btn-primary jh-create-entity" id="jh-create-entity"
+                            data-cy="entityCreateButton">
+                        <FontAwesomeIcon icon="pencil-alt"/>{' '}
+                        <span className="d-none d-md-inline">
                               <Translate contentKey="entity.action.edit">Edit</Translate>
                             </span>
-                    </Button>
-                      :
-                      <div></div>}
+                      </Link>
+                      : <div></div>}
 
                     {props.post.poster.id === props.account_id || props.account_login === "admin" ?
                       <Button
