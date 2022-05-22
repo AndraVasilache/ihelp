@@ -114,5 +114,15 @@ services:
       timeout: 3s
       retries: 10
 
+  moderator_bot:
+    build:
+      dockerfile: moderator_bot.Dockerfile
+      context: .
+    depends_on:
+      ihelp-postgresql:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
 volumes:
   portainer_data:
