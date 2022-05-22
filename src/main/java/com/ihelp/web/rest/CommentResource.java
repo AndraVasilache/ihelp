@@ -3,6 +3,7 @@ package com.ihelp.web.rest;
 import com.ihelp.domain.Comment;
 import com.ihelp.repository.CommentRepository;
 import com.ihelp.service.CommentService;
+import com.ihelp.service.MailService;
 import com.ihelp.web.rest.errors.BadRequestAlertException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -41,9 +42,12 @@ public class CommentResource {
 
     private final CommentRepository commentRepository;
 
-    public CommentResource(CommentService commentService, CommentRepository commentRepository) {
+    private final MailService mailService;
+
+    public CommentResource(CommentService commentService, CommentRepository commentRepository, MailService mailService) {
         this.commentService = commentService;
         this.commentRepository = commentRepository;
+        this.mailService = mailService;
     }
 
     /**
@@ -60,6 +64,8 @@ public class CommentResource {
             throw new BadRequestAlertException("A new comment cannot already have an ID", ENTITY_NAME, "idexists");
         }
         Comment result = commentService.save(comment);
+
+        mailService.sendEmail(result.getPost().getPoster().getEmail(), "Someone commented on your post!", result.getContent());
         return ResponseEntity
             .created(new URI("/api/comments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, true, ENTITY_NAME, result.getId().toString()))
@@ -147,14 +153,6 @@ public class CommentResource {
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }
-
-//    @GetMapping("/comments/{id}")
-//    public ResponseEntity<List<Comment>> getCommentsForPost(@PathVariable(value = "id", required = false) final Long id, Pageable pageable) {
-//        log.debug("REST request to get a page of Comments for Post");
-//        Page<Comment> page = commentService.findAll(pageable);
-//        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-//        return ResponseEntity.ok().headers(headers).body(page.getContent());
-//    }
 
     /**
      * {@code GET  /comments/:id} : get the "id" comment.

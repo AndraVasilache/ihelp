@@ -46,17 +46,16 @@ const Header = (props: IHeaderProps) => {
         <Collapse isOpen={menuOpen} navbar>
           <Nav id="header-tabs" className="ml-auto" navbar>
             <Home />
-            {props.isAuthenticated && props.isAdmin && (
-              <AdminMenu showOpenAPI={props.isOpenAPIEnabled} showDatabase={!props.isInProduction} />
-            )}
-
             {props.isAuthenticated && (
               <NavLink tag={Link} to="/post" className="d-flex align-items-center">
                 <span className="d-none d-md-inline"><Translate contentKey="ihelpApp.post.home.title">Posts</Translate></span>
               </NavLink>
             )}
+            {props.isAuthenticated && props.isAdmin && (
+              <AdminMenu showOpenAPI={props.isOpenAPIEnabled} showDatabase={!props.isInProduction} />
+            )}
             <LocaleMenu currentLocale={props.currentLocale} onClick={handleLocaleChange} />
-            <AccountMenu isAuthenticated={props.isAuthenticated} />
+            <AccountMenu isAuthenticated={props.isAuthenticated}/>
           </Nav>
         </Collapse>
       </Navbar>

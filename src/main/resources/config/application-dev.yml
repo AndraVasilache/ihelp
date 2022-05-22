@@ -27,9 +27,6 @@ spring:
       additional-exclude: static/**,.h2.server.properties
     livereload:
       enabled: false # we use Webpack dev server + BrowserSync for livereload
-  spring:
-    thymeleaf:
-      cache: false
   security:
     oauth2:
       client:
@@ -45,18 +42,6 @@ spring:
             client-id: web_app
             client-secret: web_app
             scope: openid,profile,email
-#  security:
-#    oauth2:
-#      client:
-#        provider:
-#          oidc:
-#            issuer-uri: https://dev-14632418.okta.com/oauth2/default
-#            jwk-set-uri: https://dev-14632418.okta.com/.well-known/jwks.json
-#        registration:
-#          oidc:
-#            client-id: 0oa4ys2ifvPh2VsCJ5d7
-#            client-secret: zPw-QXhilzihlsXYnRVzaN2AnyJTizZwasucYdkT
-#            scope: openid,profile,email
   jackson:
     serialization:
       indent-output: true
@@ -70,12 +55,23 @@ spring:
       auto-commit: false
   h2:
     console:
-      # disable spring boot built-in h2-console since we start it manually with correct configuration
       enabled: false
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
   liquibase:
     contexts: dev
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ihelp@gmail.com
+    password: ihelp_123
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            required: true
+            enable: true
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   thymeleaf:
@@ -89,6 +85,7 @@ spring:
     locator:
       discovery:
         enabled: true
+
 
 server:
   port: 8080
