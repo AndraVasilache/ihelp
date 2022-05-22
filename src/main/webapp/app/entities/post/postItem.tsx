@@ -38,10 +38,6 @@ const PostItem = (props) => {
 
               <CardSubtitle className="mb-2 text-muted " tag="h6">
                 {props.post.date ? <TextFormat type="date" value={props.post.date} format={APP_LOCAL_DATE_FORMAT} /> : null}
-                <Col >
-                  <Translate contentKey={`ihelpApp.post.verified`} /> { }
-                  <Translate contentKey={`ihelpApp.Type.${props.post.types}`} />
-                </Col>
               </CardSubtitle>
               <CardText>
                 {props.post.content}
