@@ -110,3 +110,6 @@ The `npm run` command will list all the scripts available to run for this projec
 5. [Document cu arhitectura de domeniu (la nivel de date)](documentation/Document%20cu%20arhitectura%20macro.png)
 6. [Codul sursa](src)
 7. [Fisierele YAML de configuratie infrastructura](src/main/resources/config/application-dev.yml)
+
+We've been using a combination of JIRA/Google Docs to track our progress: 
+[JIRA Board](https://pweb-stop-war.atlassian.net/jira/software/projects/PWEB/boards/1)
