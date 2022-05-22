@@ -18,12 +18,13 @@ services:
     ports:
       - 127.0.0.1:8080:8080
     restart: always
-    healthcheck:
-      # test: ["CMD", "pg_isready -U postgres"]
-      test: curl -f http://localhost:8080/
-      interval: 7s
-      timeout: 4s
-      retries: 10
+    # healthcheck:
+    #   # test: ["CMD", "pg_isready -U postgres"]
+    #   test: "curl --fail --silent localhost:8080/actuator/health | grep UP || exit 1"
+    #   interval: 20s
+    #   timeout: 5s
+    #   retries: 5
+    #   start_period: 40s
     depends_on:
       ihelp-postgresql:
         condition: service_healthy
