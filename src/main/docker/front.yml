@@ -6,4 +6,4 @@ services:
       context: ../../../
       dockerfile: src/main/docker/ihelp-frontend.Dockerfile
     ports:
-      - 127.0.0.1:8765:9000
+      - 127.0.0.1:9000:9000
