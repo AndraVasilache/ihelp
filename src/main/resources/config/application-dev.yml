@@ -63,7 +63,7 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: ihelp@gmail.com
+    username: ihelp.noreply@gmail.com
     password: ihelp_123
     properties:
       mail:
