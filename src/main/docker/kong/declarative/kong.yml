@@ -1,0 +1,31 @@
+_format_version: "2.1"
+_transform: true
+
+services:
+- name: ihelp-app
+  url: http://ihelp-app:8080
+  routes:
+  - name: ihelp-app
+    paths:
+    - /app
+
+- name: ihelp-portainer
+  url: http://ihelp-portainer:9443
+  routes:
+  - name: ihelp-portainer
+    paths:
+    - /portainer
+
+- name: ihelp-keycloak
+  url: http://keycloak:9080
+  routes:
+  - name: ihelp-keycloak
+    paths:
+    - /keycloak
+
+- name: ihelp-grafana
+  url: http://ihelp-grafana:3000
+  routes:
+  - name: ihelp-grafana
+    paths:
+    - /grafana

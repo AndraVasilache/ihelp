@@ -36,9 +36,6 @@ services:
       driver: loki
       options:
         loki-url: "http://localhost:3100/loki/api/v1/push"
-      
-
-
 
   ihelp-postgresql:
     image: postgres:13.4
@@ -100,6 +97,7 @@ services:
     depends_on:
       ihelp-postgresql:
         condition: service_healthy
+
   ihelp-portainer:
     image: portainer/portainer-ce:2.11.1
     container_name: portainer
@@ -162,6 +160,34 @@ services:
       interval: 7s
       timeout: 3s
       retries: 10
+
+  kong:
+    image: kong:2.8.1
+    volumes:
+      - ./kong:/usr/local/kong/declarative
+    environment:
+      KONG_DATABASE: 'off'
+      KONG_DECLARATIVE_CONFIG: /usr/local/kong/declarative/kong.yml
+      KONG_PROXY_ACCESS_LOG: /dev/stdout
+      KONG_ADMIN_ACCESS_LOG: /dev/stdout
+      KONG_PROXY_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_ERROR_LOG: /dev/stderr
+      KONG_ADMIN_LISTEN: 0.0.0.0:8001, 0.0.0.0:8444 ssl
+    depends_on:
+      keycloak:
+        condition: service_healthy
+      ihelp-app:
+        condition: service_healthy
+      ihelp-postgresql:
+        condition: service_healthy
+    ports:
+      - 8008:8000 #expunerea porturilor
+      - 8443:8443
+    restart: always
+    logging:
+      driver: loki
+      options:
+        loki-url: "http://localhost:3100/loki/api/v1/push"
 
 volumes:
   portainer_data:
