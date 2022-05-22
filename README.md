@@ -47,100 +47,69 @@ npm start
 
 The `npm run` command will list all the scripts available to run for this project.
 
-## Production
-### Building for production
+# iHelp
 
-### Packaging as jar
+## Development
+###How to install and run the project locally
 
-To build the final jar and optimize the ihelp application for production, run:
+Before you can build this project, you must install and configure the following dependencies on your machine:
 
-```
-./mvnw -Pprod clean verify
-```
+1. [Node.js][]: We use Node to run a development web server and build the project.
+   Depending on your system, you can install Node either from source or as a pre-packaged bundle. For this project pe use Node version 16.13.1 and NPM version 8.8.0.
+2. [Docker](https://hub.docker.com/): We use Docker to deploy our aplication. You can work locally by downloading this project,
+   but you'll still need DockerHub to manage both the database(PostgreSQL) and the authentification service (Keycloak).  For this project pe use Docker version 20.10.8
+3. [IntelliJ IDEA](https://www.jetbrains.com/idea/): This is our chosen work IDE. You can use any IDE you like.
+4. [Java 11.00](https://www.java.com) or higher.
 
-This will concatenate and minify the client CSS and JavaScript files. It will also modify `index.html` so it references these new files.
-To ensure everything worked, run:
-
-```
-java -jar target/*.jar
-```
-
-Then navigate to [http://localhost:8080](http://localhost:8080) in your browser.
-
-### Packaging as war
-
-To package your application as a war in order to deploy it to an application server, run:
+After installing, you should be able to run the following command to install development tools.
+You will only need to run this command when dependencies change in [package.json](package.json).
 
 ```
-./mvnw -Pprod,war clean verify
+npm install
 ```
 
-## Using Docker
-For example, to start a postgresql database in a docker container, run:
+We use npm scripts and [Webpack] as our build system.
+Do note that if you haven't used keycloak locally before, you'll have to edit
+your /etc/hosts file to contain
+```
+127.0.0.1 keycloak
+ ```
+as the server won't recognize your machine otherwise.
+
+In development mode, you'll have to manually start your dockers by running the following commands in two separate terminals:
+```
+docker-compose -f src/main/docker/keycloack.yml up
+docker-compose -f src/main/docker/postgresql.yml up
+```
+The first command fill start the environment for your database, the second one will start the environment for the 3rd party authentication service.
+
+Run the following commands in two separate terminals to create a development experience where your browser
+auto-refreshes when files change on your hard drive. (first command starts the backend, second commands starts the frontend)
+
+Linux:
 
 ```
-docker-compose -f src/main/docker/postgresql.yml up -d
+./mvnw
+npm start
 ```
 
-To stop it and remove the container, run:
+Windows:
 
 ```
-docker-compose -f src/main/docker/postgresql.yml down
+mvnw
+npm start
 ```
 
-You can also fully dockerize your application and all the services that it depends on.
-To achieve this, first build a docker image of your app by running:
+The `npm run` command will list all the scripts available to run for this project.
 
-```
-./mvnw -Pprod verify jib:dockerBuild
-```
+###Relevant documents
+1. [User stories](documentation/User%20stories.md)
+2. [Wireframes](wireframes/ihelp.fig)
+3. [Mockups](wireframes/mockup.pdf)
+4. [Document cu arhitectura macro (la nivel de sistem)](documentation/Document%20cu%20arhitectura%20macro.png)
+5. [Document cu arhitectura de domeniu (la nivel de date)](documentation/Document%20cu%20arhitectura%20macro.png)
+6. [Codul sursa](src)
+7. [Fisierele YAML de configuratie infrastructura](src/main/resources/config/application-dev.yml)
 
-Then run:
-
-```
-docker-compose -f src/main/docker/app.yml up -d
-```
-
-
-## Testing
-
-To launch your application's tests, run:
-
-```
-./mvnw verify
-```
-
-### Client tests
-
-Unit tests are run by [Jest][]. They're located in [src/test/javascript/](src/test/javascript/) and can be run with:
-
-```
-npm test
-```
-
-## RabbitMQ
-TODO
-
-##Logging - Grafana
-TODO
-
-
-## Continuous Integration
-
-To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
-
-[jhipster homepage and latest documentation]: https://www.jhipster.tech
-[jhipster 7.3.1 archive]: https://www.jhipster.tech/documentation-archive/v7.3.1
-[using jhipster in development]: https://www.jhipster.tech/documentation-archive/v7.3.1/development/
-[using docker and docker-compose]: https://www.jhipster.tech/documentation-archive/v7.3.1/docker-compose
-[using jhipster in production]: https://www.jhipster.tech/documentation-archive/v7.3.1/production/
-[running tests page]: https://www.jhipster.tech/documentation-archive/v7.3.1/running-tests/
-[code quality page]: https://www.jhipster.tech/documentation-archive/v7.3.1/code-quality/
-[setting up continuous integration]: https://www.jhipster.tech/documentation-archive/v7.3.1/setting-up-ci/
-[node.js]: https://nodejs.org/
-[npm]: https://www.npmjs.com/
-[webpack]: https://webpack.github.io/
-[browsersync]: https://www.browsersync.io/
-[jest]: https://facebook.github.io/jest/
-[leaflet]: https://leafletjs.com/
-[definitelytyped]: https://definitelytyped.org/
+We've been using a combination of JIRA/Google Docs to track our progress: 
+[JIRA Board](https://pweb-stop-war.atlassian.net/jira/software/projects/PWEB/boards/1)
