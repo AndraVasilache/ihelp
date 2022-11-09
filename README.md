@@ -68,6 +68,7 @@ We've been using a combination of JIRA/Google Docs to track our progress:
 ## Contact
 
 Andra Vasilache - [AndraVasilache](https://github.com/AndraVasilache) - [vasilacheandragabriela@gmail.com]()
+
 Radu Durbalau - [radurbalau](https://github.com/radurbalau)
 
 ---
