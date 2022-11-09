@@ -53,7 +53,7 @@ npm start
 
 The `npm run` command will list all the scripts available to run for this project.
 
-###Relevant documents
+### Relevant documents
 1. [User stories](documentation/User%20stories.md)
 2. [Wireframes](wireframes/ihelp.fig)
 3. [Mockups](wireframes/mockup.pdf)
@@ -64,3 +64,17 @@ The `npm run` command will list all the scripts available to run for this projec
 
 We've been using a combination of JIRA/Google Docs to track our progress: 
 [JIRA Board](https://pweb-stop-war.atlassian.net/jira/software/projects/PWEB/boards/1)
+
+## Contact
+
+Andra Vasilache - [AndraVasilache](https://github.com/AndraVasilache) - [vasilacheandragabriela@gmail.com]()
+Radu Durbalau - [radurbalau](https://github.com/radurbalau)
+
+---
+
+## License
+
+[![License](http://img.shields.io/:license-mit-blue.svg?style=flat-square)](http://badges.mit-license.org)
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
